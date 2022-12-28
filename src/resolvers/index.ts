@@ -1,6 +1,9 @@
 import { Task } from '../../models';
+import { DataSet } from '../../models/DataSet';
+import GraphQLJSON from 'graphql-type-json';
 
 export const resolvers = {
+  JSON: GraphQLJSON,
   Query: {
     hello: () => 'Hello world',
     getAllTasks: async () => {
@@ -9,6 +12,10 @@ export const resolvers = {
     },
     async getTask(_: unknown, { id }: { id: string }) {
       return await Task.findById(id);
+    },
+    MapsList: async () => {
+      const tasks = await DataSet.find();
+      return tasks;
     },
   },
   Mutation: {
@@ -27,6 +34,33 @@ export const resolvers = {
       const newTask = new Task({ title, description });
       await newTask.save();
       return newTask;
+    },
+    async createMap(
+      parent: unknown,
+      {
+        map,
+      }: {
+        map: {
+          name: string;
+          visible: boolean;
+          nodes: unknown[];
+          relations: unknown[];
+        };
+      },
+    ) {
+      const { name, visible, nodes, relations } = map;
+      const newMap = new DataSet({
+        name,
+        visible,
+        node_custom_fields: {
+          nodes,
+        },
+        relation_custom_fields: {
+          relations,
+        },
+      });
+      await newMap.save();
+      return newMap;
     },
     async deleteTask(_: unknown, { id }: { id: string }) {
       await Task.findByIdAndDelete(id);

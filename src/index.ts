@@ -3,10 +3,12 @@ import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
 import { typeDefs } from './typeDefs/index';
 import { resolvers } from './resolvers';
+import { connectDb } from './DB';
 
 dotenv.config();
 
 const app: Express = express();
+connectDb();
 const port = process.env.PORT;
 
 app.get('/', (_req: Request, res: Response) => {
@@ -31,8 +33,8 @@ async function start() {
     res.status(404).send('not found');
   });
 
-  app.listen(process.env.PORT || 3000, () =>
-    console.log('Server on port', process.env.PORT || 3000),
+  app.listen(process.env.PORT || 3001, () =>
+    console.log('Server on port', process.env.PORT || 3001),
   );
 }
 
