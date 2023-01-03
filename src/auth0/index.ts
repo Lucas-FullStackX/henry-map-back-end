@@ -1,5 +1,5 @@
 import { JwksClient } from 'jwks-rsa';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtHeader, SigningKeyCallback } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
@@ -7,7 +7,7 @@ const client = new JwksClient({
   jwksUri: `https://${AUTH0_DOMAIN}/.well-known/jwks.json`,
 });
 
-function getKey(header, callback) {
+function getKey(header: JwtHeader, callback: SigningKeyCallback) {
   client.getSigningKey(header.kid, function (error, key) {
     const signingKey = key?.getPublicKey();
     callback(null, signingKey);

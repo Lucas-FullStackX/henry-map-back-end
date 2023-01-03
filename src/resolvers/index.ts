@@ -3,6 +3,7 @@ import { RoadMap } from '../../models/RoadMap';
 import GraphQLJSON from 'graphql-type-json';
 import { User } from '../../models/User';
 import { isTokenValid } from '../auth0';
+import { ContextType } from './types';
 
 export const resolvers = {
   JSON: GraphQLJSON,
@@ -15,7 +16,7 @@ export const resolvers = {
     async getTask(_: unknown, { id }: { id: string }) {
       return await Task.findById(id);
     },
-    MapsList: async (_, {}, context) => {
+    MapsList: async (_: unknown, {}, context: ContextType) => {
       await isTokenValid(context.token);
 
       const tasks = await RoadMap.find();
