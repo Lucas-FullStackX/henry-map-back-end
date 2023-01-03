@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "start": "node build/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/index.js\"",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/src/index.js\"",
     "check-types": "tsc --pretty --noEmit",
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
@@ -21,7 +21,11 @@
     "apollo-server-express": "^3.11.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-jwt": "^8.2.1",
     "graphql": "^16.6.0",
+    "graphql-type-json": "^0.3.2",
+    "jsonwebtoken": "^9.0.0",
+    "jwks-rsa": "^3.0.0",
     "mongoose": "^6.8.0"
   },
   "devDependencies": {
