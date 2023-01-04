@@ -4,6 +4,7 @@ import GraphQLJSON from 'graphql-type-json';
 import { User } from '../../models/User';
 import { isTokenValid } from '../auth0';
 import { ContextType } from './types';
+import { Category } from '../../models/Category';
 
 export const resolvers = {
   JSON: GraphQLJSON,
@@ -51,10 +52,11 @@ export const resolvers = {
           nodes: unknown[];
           relations: unknown[];
           userId: string;
+          categoryId: string;
         };
       },
     ) {
-      const { name, visible, nodes, relations, userId } = map;
+      const { name, visible, nodes, relations, userId, categoryId } = map;
       const newMap = await RoadMap.create({
         name,
         visible,
@@ -80,21 +82,37 @@ export const resolvers = {
             return map;
           }),
         );
-        console.log({
-          ...mapResponse,
-          user: {
-            ...userResponse,
-            roadMapsList: mapList,
-          },
-        });
+        const categoryById = await Category.findById(categoryId);
+        if (categoryById) {
+          categoryById.roadMapsList.push(newMap.id);
+          await categoryById.save();
+        }
         return {
           ...mapResponse,
+          category: categoryById,
           user: {
             ...userResponse,
             roadMapsList: mapList,
           },
         };
       }
+    },
+    async createCategory(
+      _: unknown,
+      {
+        data,
+      }: {
+        data: {
+          name: string;
+        };
+      },
+    ) {
+      const { name } = data;
+      const newCategory = await Category.create({
+        name,
+      });
+      await newCategory.save();
+      return newCategory;
     },
     async createUser(
       _: unknown,
