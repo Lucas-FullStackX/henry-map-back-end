@@ -9,7 +9,7 @@ export const typeDefs = gql`
     node_custom_fields: JSON
     relation_custom_fields: JSON
     user: User
-    category: Category
+    category: CategoryMap
   }
   type User {
     id: ID
@@ -17,17 +17,26 @@ export const typeDefs = gql`
     email: String
     roadMapsList: [Map]
   }
+  type CategoryMap {
+    id: ID
+    name: String
+  }
   type Category {
     id: ID
     name: String
+    roadMapsList: [Map]
   }
   type Task {
     id: ID
     title: String
     description: String
   }
-  type MapListResponse {
+  type MapsListResponse {
     items: [Map]
+    count: Int
+  }
+  type CategoriesListResponse {
+    items: [Category]
     count: Int
   }
   input TaskInput {
@@ -49,11 +58,16 @@ export const typeDefs = gql`
   input CategoryInput {
     name: String!
   }
+  input MapsListFilters {
+    name: String
+  }
   type Query {
     hello: String
     getAllTasks: [Task]
     getTask(id: ID): Task
-    MapsList: MapListResponse
+    mapsList(filters: MapsListFilters): MapsListResponse
+    categoriesList: CategoriesListResponse
+    getCategory: Category
   }
   type Mutation {
     createTask(task: TaskInput): Task

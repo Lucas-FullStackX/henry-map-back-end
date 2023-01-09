@@ -1,5 +1,12 @@
-import { model, Schema } from 'mongoose';
-const UserSchema = new Schema(
+import { model, Schema, Types } from 'mongoose';
+export interface UserModel {
+  _id: Types.ObjectId;
+  id: string;
+  name: string;
+  email: string;
+  roadMapsList: Types.ObjectId[];
+}
+const UserSchema = new Schema<UserModel>(
   {
     name: {
       type: String,
@@ -8,6 +15,7 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     roadMapsList: [{ type: Schema.Types.ObjectId, ref: 'RoadMap' }],
   },

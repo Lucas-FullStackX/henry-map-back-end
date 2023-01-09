@@ -18,7 +18,7 @@ app.get('/', (_req: Request, res: Response) => {
 
 app.listen(port, () => {
   console.log(
-    `⚡️[server]: Server is running at https://localhost:${port || 3001}`,
+    `⚡️[server]: Server is running at https://localhost:${port || 3001}/api`,
   );
 });
 async function start() {

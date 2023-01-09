@@ -5,6 +5,7 @@ import { User } from '../../models/User';
 import { isTokenValid } from '../auth0';
 import { ContextType } from './types';
 import { Category } from '../../models/Category';
+import { getCategoryInfo } from './categories/utils';
 
 export const resolvers = {
   JSON: GraphQLJSON,
@@ -17,11 +18,23 @@ export const resolvers = {
     async getTask(_: unknown, { id }: { id: string }) {
       return await Task.findById(id);
     },
-    MapsList: async (_: unknown, {}, context: ContextType) => {
-      await isTokenValid(context.token);
-
-      const tasks = await RoadMap.find();
-      return { items: tasks, count: tasks.length };
+    mapsList: async (_: unknown, {}, context: ContextType) => {
+      const roadMapList = await RoadMap.find();
+      return { items: roadMapList, count: roadMapList.length };
+    },
+    categoriesList: async (_: unknown, {}, context: ContextType) => {
+      const getCategories = await Category.find();
+      const roadMapsList = await Promise.all(
+        getCategories.map(async (categoryId) => {
+          const id = categoryId._id.toJSON();
+          const map = await getCategoryInfo(id);
+          return map;
+        }),
+      );
+      return {
+        items: roadMapsList,
+        count: getCategories.length,
+      };
     },
   },
   Mutation: {
@@ -67,6 +80,7 @@ export const resolvers = {
           relations,
         },
         user: userId,
+        category: categoryId,
       });
       await newMap.save();
       const userById = await User.findById(userId);
