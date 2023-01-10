@@ -9,8 +9,8 @@ export interface RoadMapModel {
   user: Types.ObjectId;
   category: Types.ObjectId;
 }
-const Node = new Schema({ relations: [Schema.Types.Mixed] });
-const Relation = new Schema({ nodes: [Schema.Types.Mixed] });
+const Node = new Schema({ nodes: [Schema.Types.Mixed] });
+const Relation = new Schema({ relations: [Schema.Types.Mixed] });
 const RoadMapSchema = new Schema<RoadMapModel>(
   {
     name: {

@@ -26,8 +26,8 @@ export const types = gql`
   input MapInput {
     name: String
     visible: Boolean
-    node_custom_fields: JSON
-    relation_custom_fields: JSON
+    nodes: JSON
+    relations: JSON
     userId: String
     categoryId: String
   }

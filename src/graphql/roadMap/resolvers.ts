@@ -38,6 +38,7 @@ const mutations = {
     },
   ) => {
     const { name, visible, nodes, relations, userId, categoryId } = map;
+    console.log(map);
     const newMap = await RoadMap.create({
       name,
       visible,
@@ -71,9 +72,12 @@ const mutations = {
       }
       return {
         ...mapResponse,
+        id: mapResponse._id.toJSON(),
         category: categoryById,
         user: {
-          ...userResponse,
+          id: userResponse._id.toJSON(),
+          name: userResponse.name,
+          email: userResponse.email,
           roadMapsList: mapList,
         },
       };
