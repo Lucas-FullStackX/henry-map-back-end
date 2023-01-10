@@ -25,7 +25,10 @@ export const getRoadMapInfo = async (
         const category = getRoadMap.category.toJSON();
         const getCategory = await Category.findById(category);
         if (getCategory) {
-          data.category = getCategory.toJSON();
+          data.category = {
+            id: getCategory._id.toJSON(),
+            name: getCategory.name,
+          };
         }
       }
       return data;

@@ -1,12 +1,23 @@
 import { Category } from '../../../models/Category';
 import { RoadMap } from '../../../models/RoadMap';
 import { User } from '../../../models/User';
-import { ContextType } from '../resolvers/types';
+import { ContextType } from '../types';
+import { getRoadMapInfo } from './utils';
 
 const queries = {
   mapsList: async (_: unknown, {}, context: ContextType) => {
-    const roadMapList = await RoadMap.find();
-    return { items: roadMapList, count: roadMapList.length };
+    const roadMaps = await RoadMap.find();
+    const roadMapsList = await Promise.all(
+      roadMaps.map(async (categoryId) => {
+        const id = categoryId._id.toJSON();
+        const map = await getRoadMapInfo(id);
+        return map;
+      }),
+    );
+    return {
+      items: roadMapsList,
+      count: roadMapsList.length,
+    };
   },
 };
 

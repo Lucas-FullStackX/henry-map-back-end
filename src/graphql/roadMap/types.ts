@@ -7,12 +7,17 @@ export const types = gql`
     visible: Boolean
     node_custom_fields: JSON
     relation_custom_fields: JSON
-    user: User
+    user: UserMap
     category: CategoryMap
   }
   type CategoryMap {
     id: ID
     name: String
+  }
+  type UserMap {
+    id: ID
+    name: String
+    email: String
   }
   type MapsListResponse {
     items: [Map]
