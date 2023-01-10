@@ -1,34 +1,19 @@
 import { gql } from 'apollo-server-express';
+import { RoadMap } from './roadMap';
 import { User } from './user';
 const typeDefs = gql`
   scalar JSON
   ${User.types}
+  ${RoadMap.types}
   
   type Query {
     ${User.queries}
+    ${RoadMap.queries}
   }
   
   type Mutation {
     ${User.mutations}
-  }
-  type Map {
-    id: ID
-    name: String
-    visible: Boolean
-    node_custom_fields: JSON
-    relation_custom_fields: JSON
-    user: User
-    category: CategoryMap
-  }
-  type User {
-    id: ID
-    name: String
-    email: String
-    roadMapsList: [Map]
-  }
-  type CategoryMap {
-    id: ID
-    name: String
+    ${RoadMap.mutations}
   }
   type Category {
     id: ID
@@ -40,10 +25,7 @@ const typeDefs = gql`
     title: String
     description: String
   }
-  type MapsListResponse {
-    items: [Map]
-    count: Int
-  }
+ 
   type CategoriesListResponse {
     items: [Category]
     count: Int
@@ -52,39 +34,21 @@ const typeDefs = gql`
     title: String
     description: String
   }
-  input MapInput {
-    name: String
-    visible: Boolean
-    node_custom_fields: JSON
-    relation_custom_fields: JSON
-    userId: String
-    categoryId: String
-  }
-  input UserInput {
-    name: String
-    email: String
-  }
   input CategoryInput {
     name: String!
-  }
-  input MapsListFilters {
-    name: String
   }
   type Query {
     hello: String
     getAllTasks: [Task]
     getTask(id: ID): Task
-    mapsList(filters: MapsListFilters): MapsListResponse
     categoriesList: CategoriesListResponse
     getCategory: Category
   }
   type Mutation {
     createTask(task: TaskInput): Task
-    createMap(map: MapInput!): Map
     createCategory(data: CategoryInput!): Category
     deleteTask(id: ID): String
     updateTask(id: ID, task: TaskInput): Task
-    createUser(user: UserInput!): User
   }
 `;
 export default typeDefs;
