@@ -1,4 +1,4 @@
 export const queries = `
   categoriesList: CategoriesListResponse
-  getCategory: Category
+  getCategory (id: ID ,filters: CategoryFilters): Category
 `;

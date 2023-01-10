@@ -12,6 +12,7 @@ export const getCategoryInfo = async (
         return await getRoadMapInfo(mapId.toJSON());
       }),
     );
+    console.log('LIST:', roadMapsList);
     return {
       id: categoryId,
       name: getCategory.name,

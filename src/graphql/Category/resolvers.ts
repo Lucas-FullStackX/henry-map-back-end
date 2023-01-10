@@ -19,10 +19,29 @@ const queries = {
       count: getCategories.length,
     };
   },
+  getCategory: async (
+    _: unknown,
+    {
+      id,
+      filters,
+    }: {
+      id: string;
+      filters?: {
+        id?: string;
+        name?: string;
+      };
+    },
+    context: ContextType,
+  ) => {
+    const getCategory = await getCategoryInfo(id);
+    if (getCategory) {
+      return getCategory;
+    }
+  },
 };
 
 const mutations = {
-  createMap: async (
+  createCategory: async (
     _: unknown,
     {
       data,
