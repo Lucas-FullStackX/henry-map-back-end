@@ -1,8 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
-import { typeDefs } from './typeDefs/index';
-import { resolvers } from './resolvers';
+import { typeDefs, resolvers } from './graphql';
 import { connectDb } from './DB';
 import { checkJwt } from './auth0';
 

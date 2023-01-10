@@ -1,7 +1,7 @@
 import { Category, CategoryModel } from '../../../models/Category';
 import { RoadMap, RoadMapModel } from '../../../models/RoadMap';
 import { User } from '../../../models/User';
-import { RoadMapResponse } from '../types';
+import { RoadMapResponse } from '../resolvers/types';
 
 export const getRoadMapInfo = async (
   roadMapId: string,

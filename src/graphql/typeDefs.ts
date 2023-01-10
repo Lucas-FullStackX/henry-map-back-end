@@ -1,7 +1,16 @@
 import { gql } from 'apollo-server-express';
-
-export const typeDefs = gql`
+import { User } from './user';
+const typeDefs = gql`
   scalar JSON
+  ${User.types}
+  
+  type Query {
+    ${User.queries}
+  }
+  
+  type Mutation {
+    ${User.mutations}
+  }
   type Map {
     id: ID
     name: String
@@ -78,3 +87,4 @@ export const typeDefs = gql`
     createUser(user: UserInput!): User
   }
 `;
+export default typeDefs;

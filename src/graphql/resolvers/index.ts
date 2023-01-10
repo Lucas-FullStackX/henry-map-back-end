@@ -1,13 +1,13 @@
-import { Task } from '../../models';
-import { RoadMap } from '../../models/RoadMap';
+import { Task } from '../../../models';
+import { RoadMap } from '../../../models/RoadMap';
 import GraphQLJSON from 'graphql-type-json';
-import { User } from '../../models/User';
-import { isTokenValid } from '../auth0';
+import { User } from '../../../models/User';
+import { isTokenValid } from '../../auth0';
 import { ContextType } from './types';
-import { Category } from '../../models/Category';
-import { getCategoryInfo } from './categories/utils';
+import { Category } from '../../../models/Category';
+import { getCategoryInfo } from '../categories/utils';
 
-export const resolvers = {
+const resolvers = {
   JSON: GraphQLJSON,
   Query: {
     hello: () => 'Hello world',
@@ -181,3 +181,5 @@ export const resolvers = {
     },
   },
 };
+
+export default resolvers;
