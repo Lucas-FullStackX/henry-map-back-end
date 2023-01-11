@@ -13,8 +13,4 @@ export const types = gql`
   input CategoryInput {
     name: String!
   }
-  input CategoryFilters {
-    id: ID
-    name: String
-  }
 `;

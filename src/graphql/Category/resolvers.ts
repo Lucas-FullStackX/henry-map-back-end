@@ -23,16 +23,24 @@ const queries = {
     _: unknown,
     {
       id,
-      filters,
+      name,
     }: {
       id: string;
-      filters?: {
-        id?: string;
-        name?: string;
-      };
+      name: string;
     },
     context: ContextType,
   ) => {
+    if (name) {
+      const findCategoryByName = await Category.find({ name });
+      if (findCategoryByName.length > 0) {
+        const getCategory = await getCategoryInfo(
+          findCategoryByName[0]._id.toJSON(),
+        );
+        if (getCategory) {
+          return getCategory;
+        }
+      }
+    }
     const getCategory = await getCategoryInfo(id);
     if (getCategory) {
       return getCategory;
